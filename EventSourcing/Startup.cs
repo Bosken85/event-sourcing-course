@@ -77,6 +77,7 @@ namespace EventSourcing
 
             app.UseMiddleware<CommandPublishMiddleware>();
             app.UseMvc();
+
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
