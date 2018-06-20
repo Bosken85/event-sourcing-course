@@ -38,7 +38,7 @@ namespace EventSourcing.Controllers
                 Username = x.Username,
                 ItemCount =  x.ItemCount,
                 PriceTotal = x.PriceTotal
-            });
+            }).ToList();
             return Ok(result);
         }
 

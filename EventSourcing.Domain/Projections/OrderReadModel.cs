@@ -12,7 +12,7 @@ namespace EventSourcing.Domain.Orders.Projections
     [Table("Orders")]
     public class OrderReadModel : IReadModel,
         IAmReadModelFor<OrderAggregate, OrderId, OrderCreated>,
-        IAmReadModelFor<OrderAggregate, OrderId, OrderItemAdded>
+        IAmReadModelFor<OrderAggregate, OrderId, OrderLineAdded>
     {
         [MsSqlReadModelIdentityColumn]
         public string Id { get; set; }
@@ -32,11 +32,11 @@ namespace EventSourcing.Domain.Orders.Projections
             this.Username = domainEvent.AggregateEvent.User.Value;
         }
 
-        public void Apply(IReadModelContext context, IDomainEvent<OrderAggregate, OrderId, OrderItemAdded> domainEvent)
+        public void Apply(IReadModelContext context, IDomainEvent<OrderAggregate, OrderId, OrderLineAdded> domainEvent)
         {
-            var orderItem = domainEvent.AggregateEvent.OrderItem;
-            this.PriceTotal += (double)(orderItem.Amount * orderItem.Price);
-            this.ItemCount++;
+            var orderLine = domainEvent.AggregateEvent.OrderLine;
+            this.PriceTotal += (double)(orderLine.Amount * orderLine.Price);
+            this.ItemCount += orderLine.Amount;
         }
     }
 }

@@ -7,21 +7,21 @@ using EventSourcing.Domain.Orders.ValueObjects;
 
 namespace EventSourcing.Domain.Orders.State
 {
-    public partial class OrderSate : IApply<OrderItemAdded>
+    public partial class OrderSate : IApply<OrderLineAdded>
     {
-        public List<OrderItem> OrderItems { get; } = new List<OrderItem>();
+        public List<OrderLine> OrderItems { get; } = new List<OrderLine>();
 
-        public void Apply(OrderItemAdded aggregateEvent)
+        public void Apply(OrderLineAdded aggregateEvent)
         {
-            var orderItem = aggregateEvent.OrderItem;
-            var existing = OrderItems.FirstOrDefault(x => x.ProductId == orderItem.ProductId);
+            var orderLine = aggregateEvent.OrderLine;
+            var existing = OrderItems.FirstOrDefault(x => x.ProductId == orderLine.ProductId);
             if (existing != null)
             {
-                existing.Amount += orderItem.Amount;
+                existing.Amount += orderLine.Amount;
             }
             else
             {
-                OrderItems.Add(orderItem);
+                OrderItems.Add(orderLine);
             }
         }
     }

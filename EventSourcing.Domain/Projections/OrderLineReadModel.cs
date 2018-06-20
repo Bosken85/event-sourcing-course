@@ -11,7 +11,7 @@ namespace EventSourcing.Domain.Orders.Projections
 {
     [Table("OrderLines")]
     public class OrderLineReadModel : IReadModel,
-        IAmReadModelFor<OrderAggregate, OrderId, OrderItemAdded>
+        IAmReadModelFor<OrderAggregate, OrderId, OrderLineAdded>
     {
         [MsSqlReadModelIdentityColumn]
         public string Id { get; set; }
@@ -24,14 +24,14 @@ namespace EventSourcing.Domain.Orders.Projections
         [MsSqlReadModelVersionColumn]
         public int Version { get; set; }
 
-        public void Apply(IReadModelContext context, IDomainEvent<OrderAggregate, OrderId, OrderItemAdded> domainEvent)
+        public void Apply(IReadModelContext context, IDomainEvent<OrderAggregate, OrderId, OrderLineAdded> domainEvent)
         {
             OrderId = domainEvent.AggregateIdentity.Value;
-            Id = domainEvent.AggregateEvent.OrderItem.Id.Value;
-            ProductId = domainEvent.AggregateEvent.OrderItem.ProductId.Value;
-            Title = domainEvent.AggregateEvent.OrderItem.Title;
-            Price = domainEvent.AggregateEvent.OrderItem.Price;
-            Amount = domainEvent.AggregateEvent.OrderItem.Amount;
+            Id = domainEvent.AggregateEvent.OrderLine.Id.Value;
+            ProductId = domainEvent.AggregateEvent.OrderLine.ProductId.Value;
+            Title = domainEvent.AggregateEvent.OrderLine.Title;
+            Price = domainEvent.AggregateEvent.OrderLine.Price;
+            Amount = domainEvent.AggregateEvent.OrderLine.Amount;
         }
     }
 }

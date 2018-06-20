@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace EventSourcing.Models.OrderItems
+namespace EventSourcing.Models.OrderLines
 {
-    public class OrderItemRead
+    public class OrderLineRead
     {
         public Guid Id { get; set; }
 

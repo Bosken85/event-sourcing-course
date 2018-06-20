@@ -1,6 +1,6 @@
-﻿namespace EventSourcing.Models.OrderItems
+﻿namespace EventSourcing.Models.OrderLines
 {
-    public class OrderItemWrite
+    public class OrderLineWrite
     {
         public string Title { get; set; }
 

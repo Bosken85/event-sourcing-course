@@ -12,7 +12,7 @@ using EventSourcing.Domain.Orders.Projections;
 using EventSourcing.Domain.Orders.Queries;
 using EventSourcing.Domain.Products;
 using EventSourcing.Models;
-using EventSourcing.Models.OrderItems;
+using EventSourcing.Models.OrderLines;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EventSourcing.Controllers
@@ -35,14 +35,14 @@ namespace EventSourcing.Controllers
         {
             var orderIdValue = OrderId.With(orderId).Value;
             var domainResults = await _processor.ProcessAsync(new GetOrderLinesByOrderIdQuery(orderIdValue), new CancellationToken());
-            var results = domainResults.Select(x => new OrderItemRead
+            var results = domainResults.Select(x => new OrderLineRead
             {
-                Id = OrderItemId.With(x.Id).GetGuid(),
+                Id = OrderLineId.With(x.Id).GetGuid(),
                 ProductId = ProductId.With(x.ProductId).GetGuid(),
                 Title = x.Title,
                 Price = x.Price,
                 Amount = x.Amount
-            });
+            }).ToList();
             return Ok(results);
         }
 
@@ -50,21 +50,21 @@ namespace EventSourcing.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get([FromRoute]Guid orderId, [FromRoute]Guid id)
         {
-            var orderLineIdValue = OrderItemId.With(id).Value;
+            var orderLineIdValue = OrderLineId.With(id).Value;
             var orderLine = await _processor.ProcessAsync(new ReadModelByIdQuery<OrderLineReadModel>(orderLineIdValue), new CancellationToken());
             return Ok(orderLine);
         }
 
         // POST api/values
         [HttpPost]
-        public async Task<IActionResult> Post([FromRoute]Guid orderId, [FromBody]OrderItemWrite value)
+        public async Task<IActionResult> Post([FromRoute]Guid orderId, [FromBody]OrderLineWrite value)
         {
             var orderIdKey = OrderId.With(orderId);
-            var orderItemId = OrderItemId.NewComb();
-            var orderItem = new OrderItem(orderItemId, ProductId.NewComb(), value.Title, value.Price, value.Amount);
-            var cmd = new AddOrderItem(orderIdKey, orderItem);
+            var orderLineId = OrderLineId.NewComb();
+            var orderLine = new OrderLine(orderLineId, ProductId.NewComb(), value.Title, value.Price, value.Amount);
+            var cmd = new AddOrderLine(orderIdKey, orderLine);
             await this._commandBus.PublishAsync(cmd, new CancellationToken()).ConfigureAwait(false);
-            return CreatedAtAction("Get", new { orderId = orderIdKey.Value, id = orderItemId.Value }, null);
+            return CreatedAtAction("Get", new { orderId = orderIdKey.Value, id = orderLineId.Value }, null);
         }
 
         // DELETE api/values/5

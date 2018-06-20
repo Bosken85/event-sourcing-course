@@ -5,9 +5,9 @@ using Newtonsoft.Json;
 namespace EventSourcing.Domain.Orders.Entities
 {
     [JsonConverter(typeof(SingleValueObjectConverter))]
-    public class OrderItemId : Identity<OrderItemId>
+    public class OrderLineId : Identity<OrderLineId>
     {
-        public OrderItemId(string value) : base(value)
+        public OrderLineId(string value) : base(value)
         {
         }
     }

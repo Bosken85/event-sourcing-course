@@ -4,7 +4,7 @@ using EventSourcing.Domain.Products;
 
 namespace EventSourcing.Domain.Orders.Entities
 {
-    public class OrderItem : Entity<OrderItemId>
+    public class OrderLine : Entity<OrderLineId>
     {
         public ProductId ProductId { get; }
 
@@ -14,7 +14,7 @@ namespace EventSourcing.Domain.Orders.Entities
 
         public int Amount { get; internal set; }
 
-        public OrderItem(OrderItemId id, ProductId productId, string title, double price, int amount) : base(id)
+        public OrderLine(OrderLineId id, ProductId productId, string title, double price, int amount) : base(id)
         {
             ProductId = productId;
             Title = title;

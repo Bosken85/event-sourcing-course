@@ -24,9 +24,9 @@ namespace EventSourcing.Domain.Orders
             Emit(new OrderCreated(user));
         }
 
-        public void AddOrderItem(OrderItem orderItem)
+        public void AddOrderItem(OrderLine orderItem)
         {
-            Emit(new OrderItemAdded(orderItem));
+            Emit(new OrderLineAdded(orderItem));
         }
 
         public void Apply(OrderCreated aggregateEvent)

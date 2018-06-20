@@ -8,11 +8,11 @@ using EventSourcing.Domain.Orders.Commands;
 
 namespace EventSourcing.Domain.Orders.CommandHandlers
 {
-    public class AddOrderItemCommandHandler: CommandHandler<OrderAggregate, OrderId, AddOrderItem>
+    public class AddOrderItemCommandHandler: CommandHandler<OrderAggregate, OrderId, AddOrderLine>
     {
-        public override Task ExecuteAsync(OrderAggregate aggregate, AddOrderItem command, CancellationToken cancellationToken)
+        public override Task ExecuteAsync(OrderAggregate aggregate, AddOrderLine command, CancellationToken cancellationToken)
         {
-            aggregate.AddOrderItem(command.OrderItem);
+            aggregate.AddOrderItem(command.OrderLine);
             return Task.FromResult(0);
         }
     }

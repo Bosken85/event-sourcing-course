@@ -8,13 +8,13 @@ using EventSourcing.Domain.Orders.ValueObjects;
 
 namespace EventSourcing.Domain.Orders.Commands
 {
-    public class AddOrderItem: Command<OrderAggregate, OrderId>
+    public class AddOrderLine: Command<OrderAggregate, OrderId>
     {
-        public OrderItem OrderItem { get; }
+        public OrderLine OrderLine { get; }
 
-        public AddOrderItem(OrderId aggregateId, OrderItem orderItem) : base(aggregateId)
+        public AddOrderLine(OrderId aggregateId, OrderLine orderLine) : base(aggregateId)
         {
-            OrderItem = orderItem;
+            OrderLine = orderLine;
         }
     }
 }
