@@ -12,8 +12,6 @@ using EventFlow.MsSql;
 using EventFlow.MsSql.EventStores;
 using EventFlow.MsSql.Extensions;
 using EventFlow.MsSql.SnapshotStores;
-using EventFlow.RabbitMQ;
-using EventFlow.RabbitMQ.Extensions;
 using EventSourcing.Domain.Orders;
 using EventSourcing.Domain.Orders.Projections;
 using Microsoft.AspNetCore.Builder;
@@ -39,17 +37,13 @@ namespace EventSourcing
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddSwaggerGen(c =>
+            services.AddSwaggerGen(c => c.SwaggerDoc("v1", new Info
             {
-                c.SwaggerDoc("v1", new Info
-                {
-                    Version = "v1",
-                    Title = "Sequoia public api",
-                    Description = "This public facing api for access to Sequoia api",
-                    TermsOfService = "None"
-                    //Contact = new Contact { Name = "ABBV-BBTK", Email = "contact@talkingdotnet.com", Url = "www.talkingdotnet.com" }
-                });
-            });
+                Version = "v1",
+                Title = "Event Sourcing api",
+                Description = "This public facing api for access to Event Sourcing api",
+                TermsOfService = "None"
+            }));
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
@@ -63,7 +57,6 @@ namespace EventSourcing
                 .AddDefaults(typeof(OrderAggregate).Assembly)
                 .UseMssqlReadModel<OrderReadModel>()
                 .UseMssqlReadModel<OrderLineReadModel>()
-                //.UseMssqlReadModel<OrderLineReadModel, OrderLineReadModelLocator>()
                 .AddAspNetCoreMetadataProviders();
         }
 
@@ -81,7 +74,7 @@ namespace EventSourcing
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Sequoia public api V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Event Sourcing api V1");
             });
 
             var msSqlDatabaseMigrator = app.ApplicationServices.GetService<IMsSqlDatabaseMigrator>();

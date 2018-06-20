@@ -7,7 +7,6 @@
   <ItemGroup>
     <PackageReference Include="EventFlow" Version="0.60.3490" />
     <PackageReference Include="EventFlow.MsSql" Version="0.60.3490" />
-    <PackageReference Include="EventFlow.RabbitMQ" Version="0.60.3490" />
   </ItemGroup>
 
   <ItemGroup>
