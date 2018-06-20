@@ -12,8 +12,6 @@ using EventFlow.MsSql;
 using EventFlow.MsSql.EventStores;
 using EventFlow.MsSql.Extensions;
 using EventFlow.MsSql.SnapshotStores;
-using EventFlow.RabbitMQ;
-using EventFlow.RabbitMQ.Extensions;
 using EventSourcing.Domain.Orders;
 using EventSourcing.Domain.Orders.Projections;
 using Microsoft.AspNetCore.Builder;
@@ -44,10 +42,9 @@ namespace EventSourcing
                 c.SwaggerDoc("v1", new Info
                 {
                     Version = "v1",
-                    Title = "Sequoia public api",
-                    Description = "This public facing api for access to Sequoia api",
+                    Title = "Event Sourcing api",
+                    Description = "This public facing api for access to Event Sourcing api",
                     TermsOfService = "None"
-                    //Contact = new Contact { Name = "ABBV-BBTK", Email = "contact@talkingdotnet.com", Url = "www.talkingdotnet.com" }
                 });
             });
         }
@@ -63,7 +60,6 @@ namespace EventSourcing
                 .AddDefaults(typeof(OrderAggregate).Assembly)
                 .UseMssqlReadModel<OrderReadModel>()
                 .UseMssqlReadModel<OrderLineReadModel>()
-                //.UseMssqlReadModel<OrderLineReadModel, OrderLineReadModelLocator>()
                 .AddAspNetCoreMetadataProviders();
         }
 
@@ -81,7 +77,7 @@ namespace EventSourcing
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Sequoia public api V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Event Sourcing api V1");
             });
 
             var msSqlDatabaseMigrator = app.ApplicationServices.GetService<IMsSqlDatabaseMigrator>();
