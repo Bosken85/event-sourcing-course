@@ -1,10 +1,12 @@
 ﻿using System;
 
-namespace EventSourcing.Models.OrderItem
+namespace EventSourcing.Models.OrderItems
 {
-    public class OrderItemReadModel
+    public class OrderItemRead
     {
         public Guid Id { get; set; }
+
+        public Guid ProductId { get; set; }
 
         public string Title { get; set; }
 

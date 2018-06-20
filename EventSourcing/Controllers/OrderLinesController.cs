@@ -12,7 +12,7 @@ using EventSourcing.Domain.Orders.Projections;
 using EventSourcing.Domain.Orders.Queries;
 using EventSourcing.Domain.Products;
 using EventSourcing.Models;
-using EventSourcing.Models.OrderItem;
+using EventSourcing.Models.OrderItems;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EventSourcing.Controllers
@@ -31,23 +31,33 @@ namespace EventSourcing.Controllers
 
         // GET api/values
         [HttpGet]
-        public async Task<IActionResult> Get([FromRoute]string orderId)
+        public async Task<IActionResult> Get([FromRoute]Guid orderId)
         {
-            var result = await _processor.ProcessAsync(new GetOrderLinesByOrderIdQuery(orderId), new CancellationToken());
-            return Ok(result);
+            var orderIdValue = OrderId.With(orderId).Value;
+            var domainResults = await _processor.ProcessAsync(new GetOrderLinesByOrderIdQuery(orderIdValue), new CancellationToken());
+            var results = domainResults.Select(x => new OrderItemRead
+            {
+                Id = OrderItemId.With(x.Id).GetGuid(),
+                ProductId = ProductId.With(x.ProductId).GetGuid(),
+                Title = x.Title,
+                Price = x.Price,
+                Amount = x.Amount
+            });
+            return Ok(results);
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get([FromRoute]string orderId, [FromRoute]string id)
+        public async Task<IActionResult> Get([FromRoute]Guid orderId, [FromRoute]Guid id)
         {
-            var orderLine = await _processor.ProcessAsync(new ReadModelByIdQuery<OrderLineReadModel>(id), new CancellationToken());
+            var orderLineIdValue = OrderItemId.With(id).Value;
+            var orderLine = await _processor.ProcessAsync(new ReadModelByIdQuery<OrderLineReadModel>(orderLineIdValue), new CancellationToken());
             return Ok(orderLine);
         }
 
         // POST api/values
         [HttpPost]
-        public async Task<IActionResult> Post([FromRoute]string orderId, [FromBody]OrderItemWriteModel value)
+        public async Task<IActionResult> Post([FromRoute]Guid orderId, [FromBody]OrderItemWrite value)
         {
             var orderIdKey = OrderId.With(orderId);
             var orderItemId = OrderItemId.NewComb();
