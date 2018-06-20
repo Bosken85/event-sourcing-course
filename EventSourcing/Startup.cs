@@ -12,10 +12,6 @@ using EventFlow.MsSql;
 using EventFlow.MsSql.EventStores;
 using EventFlow.MsSql.Extensions;
 using EventFlow.MsSql.SnapshotStores;
-using EventFlow.RabbitMQ;
-using EventFlow.RabbitMQ.Extensions;
-using EventSourcing.Domain.Orders;
-using EventSourcing.Domain.Orders.Projections;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -60,9 +56,6 @@ namespace EventSourcing
                 .UseMsSqlSnapshotStore()
                 .ConfigureMsSql(MsSqlConfiguration.New.SetConnectionString(Configuration.GetConnectionString("EventFlow")))
                 .AddDefaults(typeof(Startup).Assembly)
-                .AddDefaults(typeof(OrderAggregate).Assembly)
-                .UseMssqlReadModel<OrderReadModel>()
-                .UseMssqlReadModel<OrderLineReadModel>()
                 //.UseMssqlReadModel<OrderLineReadModel, OrderLineReadModelLocator>()
                 .AddAspNetCoreMetadataProviders();
         }
