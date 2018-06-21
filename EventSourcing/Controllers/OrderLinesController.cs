@@ -64,7 +64,7 @@ namespace EventSourcing.Controllers
             var orderLine = new OrderLine(orderLineId, ProductId.NewComb(), value.Title, value.Price, value.Amount);
             var cmd = new AddOrderLine(orderIdKey, orderLine);
             await this._commandBus.PublishAsync(cmd, new CancellationToken()).ConfigureAwait(false);
-            return CreatedAtAction("Get", new { orderId = orderIdKey.Value, id = orderLineId.Value }, null);
+            return CreatedAtAction("Get", new { orderId = orderIdKey.GetGuid(), id = orderLineId.GetGuid() }, null);
         }
 
         // DELETE api/values/5

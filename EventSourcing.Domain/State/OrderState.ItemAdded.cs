@@ -7,7 +7,7 @@ using EventSourcing.Domain.Orders.ValueObjects;
 
 namespace EventSourcing.Domain.Orders.State
 {
-    public partial class OrderSate : IApply<OrderLineAdded>
+    public partial class OrderState : IApply<OrderLineAdded>
     {
         public List<OrderLine> OrderItems { get; } = new List<OrderLine>();
 
