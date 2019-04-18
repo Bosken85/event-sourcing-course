@@ -2,7 +2,7 @@
 
 namespace EventSourcing.Domain.Orders.State
 {
-    public partial class OrderSate: AggregateState<OrderAggregate, OrderId, OrderSate>
+    public partial class OrderState: AggregateState<OrderAggregate, OrderId, OrderState>
     {
     }
 }

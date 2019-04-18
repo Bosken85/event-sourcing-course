@@ -13,7 +13,7 @@ namespace EventSourcing.Domain.Orders
     public class OrderAggregate : SnapshotAggregateRoot<OrderAggregate, OrderId, OrderSnapshot>,
         IApply<OrderCreated>
     {
-        private readonly OrderSate _orderState = new OrderSate();
+        private readonly OrderState _orderState = new OrderState();
 
         public Username User { get; set; }
 
